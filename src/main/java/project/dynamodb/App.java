@@ -30,17 +30,18 @@ public class App
 //    	data.put("imageLink","https://image.com");
 //    	data.put("metadata", "{\"key\":\"values\"}");
     	
-    	String data = "{\"imageId\":\"image-123\"}";
+//    	String data1 = "{\"imageId\":\"image-123\"}";
+    	String data= "{\"Name\":\"image-123\", \"Sex\":\"M\", \"Age\":\"23\", \"Height (in)\":\"74\", \"Weight (lbs)\":\"170\"}";
     		
-//    	{"imageId":"image-123", "imageName":"testImage", "imageLink":"https://image.com", "metadata":{"key":"values"}};
+//    	{"Name":"image-123", "Sex":"M", "Age":"23", "Height (in)":74, "Weight (lbs)":170};
 
-    	String tableName = "ImageMetadata";
+    	String tableName = "Biometrics";
     	
     	AWSDynamoDB dynamoDBHelper = new AWSDynamoDB(hostname, signingRegion);
 
     	List<String> tableAttributes = new ArrayList<String>();
-    	tableAttributes.add("imageId");
-//    	tableAttributes.add("imageName");
+    	tableAttributes.add("Name");
+//    	tableAttributes.add("Sex");
     	
     	String imageName = "test";
     	String imageId = "1";
@@ -52,7 +53,8 @@ public class App
     	System.out.println("Image Link:" + imageLink);
     	System.out.println("Data received: " + metadata.toString());
     	
-    	String primaryKey = "imageId";
+//    	String primaryKey = "imageId";
+    	String primaryKey = "Name";
     	HashMap<String, Object> imageInfoHashMap = new Gson().fromJson(data, new TypeToken<HashMap<String, Object>>(){}.getType());
 
     	try {
@@ -63,12 +65,13 @@ public class App
     		else {
     			System.out.println("Table exists. Skipping Table creation.");
     		}
-    		dynamoDBHelper.saveData(tableName, primaryKey, imageInfoHashMap);
+    		//Save data in python using batch write
+//    		dynamoDBHelper.saveData(tableName, primaryKey, imageInfoHashMap);
     	}
         catch (Exception e) {
             System.err.println("DynamoDB Exception: ");
             System.err.println(e.getMessage());
-                    }
+        }
     	
     }
 }

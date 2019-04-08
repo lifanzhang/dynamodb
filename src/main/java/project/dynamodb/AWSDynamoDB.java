@@ -82,7 +82,7 @@ public class AWSDynamoDB {
         	
 //        	//Else, it is a sort key
 //    		KeySchemaElementList.add(new KeySchemaElement(key, KeyType.RANGE));
-//       	AttributeDefinitionList.add(new AttributeDefinition(key, ScalarAttributeType.S));
+//    		AttributeDefinitionList.add(new AttributeDefinition(key, ScalarAttributeType.S));
         }
         
         //DEBUG
@@ -99,7 +99,7 @@ public class AWSDynamoDB {
 //                        new AttributeDefinition("imageName", ScalarAttributeType.S)),
 //                    new ProvisionedThroughput(10L, 10L));
           
-            //Generic way to create a dynamoDB table
+//            //Generic way to create a dynamoDB table
         	Table table = dynamoDB.createTable(tableName, 
 				KeySchemaElementList, 
 				AttributeDefinitionList, 
