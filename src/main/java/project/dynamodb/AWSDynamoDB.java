@@ -295,7 +295,7 @@ public class AWSDynamoDB {
 		
 		try {
 //			item = table.getItem("deploymentId", "deploy-123");
-			item = table.getItem("deploymentId", primaryKeyValue);
+			item = table.getItem(primaryKeyId, primaryKeyValue);
 			System.out.println("Displaying retrieved items...");
 			System.out.println(item.toJSONPretty());
 			

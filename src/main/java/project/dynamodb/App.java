@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
+import com.amazonaws.services.dynamodbv2.document.Item;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
@@ -41,20 +42,10 @@ public class App
 
     	List<String> tableAttributes = new ArrayList<String>();
     	tableAttributes.add("Name");
-//    	tableAttributes.add("Sex");
     	
-    	String imageName = "test";
-    	String imageId = "1";
-    	String imageLink = "testing.com";
-    	String metadata = "metadata";
-    	//DEBUG
-    	System.out.println("Image Name: " + imageName);
-    	System.out.println("Image Id: " + imageId);
-    	System.out.println("Image Link:" + imageLink);
-    	System.out.println("Data received: " + metadata.toString());
     	
-//    	String primaryKey = "imageId";
     	String primaryKey = "Name";
+    	
     	HashMap<String, Object> imageInfoHashMap = new Gson().fromJson(data, new TypeToken<HashMap<String, Object>>(){}.getType());
 
     	try {
@@ -72,6 +63,21 @@ public class App
             System.err.println("DynamoDB Exception: ");
             System.err.println(e.getMessage());
         }
+    	
+    	System.out.println("Query Item: \n");
+    	
+		Item item = new Item();
+		item = null;
+    	String primaryKeyId = "Name";
+    	String primaryKeyValue = "Page";
+    	
+    	try {
+    		item = dynamoDBHelper.getTableItem(tableName, primaryKeyId, primaryKeyValue);
+    	}
+    	catch (Exception e) {
+            System.err.println("DynamoDB Exception: ");
+            System.err.println(e.getMessage());
+    	}
     	
     }
 }
