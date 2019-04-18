@@ -7,12 +7,12 @@ def convert_csv_to_json_list(file):
       reader = csv.DictReader(csvfile)
       for row in reader:
         data = {}
-        data['Name'] = row['Name']
-        data['Sex'] = row['Sex']
-        data['Age'] = row['Age']
-        data['Height(in)'] = row['Height(in)']
-        data['Weight(lbs)'] = row['Weight(lbs)']
-        print(row)
+        data['id'] = row['id']
+        data['employee'] = row['employee']
+        data['salary'] = row['salary']
+#         data['Height(in)'] = row['Height(in)']
+#         data['Weight(lbs)'] = row['Weight(lbs)']
+#         print(row)
           #populate remaining fields here
           #................
         items.append(data)
@@ -28,5 +28,7 @@ def batch_write(items):
          batch.put_item(Item=item)
 
 if __name__ == '__main__':
-   json_data = convert_csv_to_json_list('biostats.csv')
+   json_data = convert_csv_to_json_list('Users_10000.csv')
    batch_write(json_data)
+   
+   

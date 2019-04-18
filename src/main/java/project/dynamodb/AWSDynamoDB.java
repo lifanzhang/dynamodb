@@ -29,12 +29,16 @@ import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.dynamodbv2.model.UpdateItemResult;
 
@@ -296,6 +300,7 @@ public class AWSDynamoDB {
 		try {
 //			item = table.getItem("deploymentId", "deploy-123");
 			item = table.getItem(primaryKeyId, primaryKeyValue);
+//			x = table.getItem
 			System.out.println("Displaying retrieved items...");
 			System.out.println(item.toJSONPretty());
 			
@@ -305,6 +310,50 @@ public class AWSDynamoDB {
 		}
 		
 		return item;
+	}
+	
+	public ScanResult scanAndFilterTable(String tableName) {
+		Table table = dynamoDB.getTable(tableName);
+		
+		Map<String, AttributeValue> expressionAttributeValues = 
+			    new HashMap<String, AttributeValue>();
+			expressionAttributeValues.put(":val", new AttributeValue().withS("388287")); 
+			
+		ScanRequest scanRequest = new ScanRequest()
+			    .withTableName(tableName)
+			    .withFilterExpression("salary = :val")
+			    .withProjectionExpression("id, employee")
+			    .withExpressionAttributeValues(expressionAttributeValues);
+
+
+		ScanResult result = client.scan(scanRequest);
+		System.out.println(result.toString());
+		for (Map<String, AttributeValue> item : result.getItems()) {
+//		    printItem(item);
+		    System.out.println(item.toString());
+		}
+			
+//		ScanSpec scanSpec = new ScanSpec().withProjectionExpression("id, employee, #salary").withFilterExpression(filterExpression)
+//				.withFilterExpression("#salary between :start_salary and :end_salary").withNameMap(new NameMap().with("#salary", "salary"))
+//				.withValueMap(new ValueMap().withNumber(":start_salary", 1000000).withNumber(":end_salary", 10000000));
+//		
+//        try {
+//            ItemCollection<ScanOutcome> items = table.scan(scanSpec);
+//
+//            Iterator<Item> iter = items.iterator();
+//            while (iter.hasNext()) {
+//                Item item = iter.next();
+//                System.out.println(item.toString());
+//            }
+//            
+//            return items;
+//
+//        }
+//        catch (Exception e) {
+//            System.err.println("Unable to scan the table:");
+//            System.err.println(e.getMessage());
+//        }
+        return result;
 	}
 	
 	public JSONObject updateTableItem(String tableName, String primaryKeyId, String attributeName, String updateValue) {

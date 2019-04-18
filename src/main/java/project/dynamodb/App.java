@@ -9,6 +9,9 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
@@ -41,10 +44,10 @@ public class App
     	AWSDynamoDB dynamoDBHelper = new AWSDynamoDB(hostname, signingRegion);
 
     	List<String> tableAttributes = new ArrayList<String>();
-    	tableAttributes.add("Name");
+    	tableAttributes.add("id");
     	
     	
-    	String primaryKey = "Name";
+    	String primaryKey = "id";
     	
     	HashMap<String, Object> imageInfoHashMap = new Gson().fromJson(data, new TypeToken<HashMap<String, Object>>(){}.getType());
 
@@ -64,20 +67,29 @@ public class App
             System.err.println(e.getMessage());
         }
     	
-    	System.out.println("Query Item: \n");
+//    	System.out.println("Query Item: \n");
+//    	
+//		Item item = new Item();
+//		item = null;
+//    	String primaryKeyId = "id";
+//    	String primaryKeyValue = "52023020";
+//    	
+//    	try {
+//    		item = dynamoDBHelper.getTableItem(tableName, primaryKeyId, primaryKeyValue);
+//    	}
+//    	catch (Exception e) {
+//            System.err.println("DynamoDB Exception: ");
+//            System.err.println(e.getMessage());
+//    	}
     	
-		Item item = new Item();
-		item = null;
-    	String primaryKeyId = "Name";
-    	String primaryKeyValue = "Page";
-    	
-    	try {
-    		item = dynamoDBHelper.getTableItem(tableName, primaryKeyId, primaryKeyValue);
-    	}
-    	catch (Exception e) {
-            System.err.println("DynamoDB Exception: ");
+        try {
+        	ScanResult result = dynamoDBHelper.scanAndFilterTable(tableName);
+
+        }
+        catch (Exception e) {
+            System.err.println("Unable to scan the table:");
             System.err.println(e.getMessage());
-    	}
+        }
     	
     }
 }
