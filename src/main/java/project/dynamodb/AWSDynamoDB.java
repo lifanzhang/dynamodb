@@ -312,18 +312,18 @@ public class AWSDynamoDB {
 		return item;
 	}
 	
-	public ScanResult scanAndFilterTable(String tableName, String salary, String filterExpression) {
+	public ScanResult scanAndFilterTable(String tableName, String attributeValue, String filterExpression) {
 		Table table = dynamoDB.getTable(tableName);
 		
 		Map<String, AttributeValue> expressionAttributeValues = 
 			    new HashMap<String, AttributeValue>();
-			expressionAttributeValues.put(":val", new AttributeValue().withS("388287")); 
+			expressionAttributeValues.put(":val", new AttributeValue().withS(attributeValue)); 
 			
 		ScanRequest scanRequest = new ScanRequest()
 			    .withTableName(tableName)
 //			    .withFilterExpression("salary = :val")
 			    .withFilterExpression(filterExpression)
-			    .withProjectionExpression("id, employee")
+			    .withProjectionExpression("id, salary, employee")
 			    .withExpressionAttributeValues(expressionAttributeValues);
 
 

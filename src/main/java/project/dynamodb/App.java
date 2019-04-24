@@ -12,7 +12,6 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 /**
@@ -27,17 +26,6 @@ public class App
         
     	String hostname = "http://localhost:8000";
     	String signingRegion = "us-east-1";
-    	   
-//    	JSONObject data = new JSONObject();
-//    	data.put("imageId", "image-123");
-//    	data.put("imageName", "testImage");
-//    	data.put("imageLink","https://image.com");
-//    	data.put("metadata", "{\"key\":\"values\"}");
-    	
-//    	String data1 = "{\"imageId\":\"image-123\"}";
-    	String data= "{\"Name\":\"image-123\", \"Sex\":\"M\", \"Age\":\"23\", \"Height (in)\":\"74\", \"Weight (lbs)\":\"170\"}";
-    		
-//    	{"Name":"image-123", "Sex":"M", "Age":"23", "Height (in)":74, "Weight (lbs)":170};
 
     	String tableName = "Biometrics";
     	
@@ -49,8 +37,6 @@ public class App
     	
     	String primaryKey = "id";
     	    	
-    	HashMap<String, Object> imageInfoHashMap = new Gson().fromJson(data, new TypeToken<HashMap<String, Object>>(){}.getType());
-
     	try {
     		//Check if table exists already
     		if(!dynamoDBHelper.doesTableExist(tableName)) {
@@ -83,9 +69,9 @@ public class App
 //    	}
     	
         try {
-        	String filterExpression = "salary = :val";
-        	String salary = "388287";
-        	ScanResult result = dynamoDBHelper.scanAndFilterTable(tableName, "388287", filterExpression);
+        	String filterExpression = "salary > :val";
+        	String attributeValue = "388287";
+        	ScanResult result = dynamoDBHelper.scanAndFilterTable(tableName, attributeValue, filterExpression);
 
         }
         catch (Exception e) {

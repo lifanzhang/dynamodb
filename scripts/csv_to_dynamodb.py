@@ -21,7 +21,7 @@ def convert_csv_to_json_list(file):
 def batch_write(items):
 
    dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name="localhost")
-   db = dynamodb.Table('Biometrics')
+   db = dynamodb.Table('Users_10000')
 
    with db.batch_writer() as batch:
       for item in items:
