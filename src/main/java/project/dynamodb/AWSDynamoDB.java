@@ -312,7 +312,7 @@ public class AWSDynamoDB {
 		return item;
 	}
 	
-	public ScanResult scanAndFilterTable(String tableName) {
+	public ScanResult scanAndFilterTable(String tableName, String salary, String filterExpression) {
 		Table table = dynamoDB.getTable(tableName);
 		
 		Map<String, AttributeValue> expressionAttributeValues = 
@@ -321,7 +321,8 @@ public class AWSDynamoDB {
 			
 		ScanRequest scanRequest = new ScanRequest()
 			    .withTableName(tableName)
-			    .withFilterExpression("salary = :val")
+//			    .withFilterExpression("salary = :val")
+			    .withFilterExpression(filterExpression)
 			    .withProjectionExpression("id, employee")
 			    .withExpressionAttributeValues(expressionAttributeValues);
 

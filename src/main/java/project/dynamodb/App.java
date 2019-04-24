@@ -48,7 +48,7 @@ public class App
     	
     	
     	String primaryKey = "id";
-    	
+    	    	
     	HashMap<String, Object> imageInfoHashMap = new Gson().fromJson(data, new TypeToken<HashMap<String, Object>>(){}.getType());
 
     	try {
@@ -83,7 +83,9 @@ public class App
 //    	}
     	
         try {
-        	ScanResult result = dynamoDBHelper.scanAndFilterTable(tableName);
+        	String filterExpression = "salary = :val";
+        	String salary = "388287";
+        	ScanResult result = dynamoDBHelper.scanAndFilterTable(tableName, "388287", filterExpression);
 
         }
         catch (Exception e) {
